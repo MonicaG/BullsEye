@@ -8,7 +8,10 @@ on:
     branches: [ "main" ]
 
 env:
-  platform: ${{ 'iOS Simulator' }}
+  PLATFORM: ${{ 'iOS Simulator' }}
+  PROJECT: "BullsEye.xcodeproj"
+  SCHEME: "BullsEye"
+  ARCHIVE_PATH: "xcbuild/BullsEye.xcarchive"
 
 jobs:
   build:
@@ -21,13 +24,35 @@ jobs:
       - name: Display XCode Path for debug
         run: |
           xcode-select -p  
-      - name: Build
+      - name: Build For Testing
         run: |
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          xcodebuild -project BullsEye.xcodeproj -scheme BullsEye -sdk iphonesimulator -destination  "platform=$platform,name=$device" build-for-testing
+          xcodebuild \
+          -project ${{ PROJECT }} \
+          -scheme ${{ SCHEME }} \
+          -sdk iphonesimulator \
+          -destination "platform=$PLATFORM,name=$device" \
+          build-for-testing
       - name: Test
         run: |
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          xcodebuild -project BullsEye.xcodeproj -scheme BullsEye -sdk iphonesimulator -destination  "platform=$platform,name=$device" test-without-building
+          xcodebuild \
+          -project ${{ PROJECT }} \
+          -scheme ${{ SCHEME }} \
+          -sdk iphonesimulator \
+          -destination "platform=$PLATFORM,name=$device" \
+          test-without-building
+      # - name: Build For Release
+      #   run: |
+      #      xcodebuild \
+      #     -project ${{ PROJECT }} \
+      #     -scheme ${{ SCHEME }} \
+      #     -configuration Release \
+      #     -sdk iphoneos \
+      #     -archivePath ${{ ARCHIVE_PATH }}
+      #     archive
+         
+
+      
