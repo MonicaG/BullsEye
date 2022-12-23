@@ -9,9 +9,9 @@ on:
 
 env:
   PLATFORM: ${{ 'iOS Simulator' }}
-  PROJECT: "BullsEye.xcodeproj"
-  SCHEME: "BullsEye"
-  ARCHIVE_PATH: "xcbuild/BullsEye.xcarchive"
+  PROJECT: ${{ 'BullsEye.xcodeproj' }}
+  SCHEME: ${{ 'BullsEye' }}
+  ARCHIVE_PATH:  ${{ 'xcbuild/BullsEye.xcarchive' }}
 
 jobs:
   build:
@@ -29,8 +29,8 @@ jobs:
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           xcodebuild \
-          -project ${{ PROJECT }} \
-          -scheme ${{ SCHEME }} \
+          -project $PROJECT \
+          -scheme $SCHEME \
           -sdk iphonesimulator \
           -destination "platform=$PLATFORM,name=$device" \
           build-for-testing
@@ -39,8 +39,8 @@ jobs:
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           xcodebuild \
-          -project ${{ PROJECT }} \
-          -scheme ${{ SCHEME }} \
+          -project $PROJECT \
+          -scheme $SCHEME \
           -sdk iphonesimulator \
           -destination "platform=$PLATFORM,name=$device" \
           test-without-building
