@@ -74,7 +74,7 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles    
       - name: Build For Release
         run: |
-           xcodebuild \
+          xcodebuild \
           -project $PROJECT \
           -scheme $SCHEME \
           -configuration Release \
