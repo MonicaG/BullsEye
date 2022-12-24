@@ -93,7 +93,7 @@ jobs:
           -scheme $SCHEME \
           -configuration Release \
           -sdk iphoneos \
-          -derivedDataPath $DATA_FOLDER
+          -derivedDataPath $DATA_FOLDER \
           -archivePath ${DATA_FOLDER}/${ARCHIVE_NAME} \
           archive
          
