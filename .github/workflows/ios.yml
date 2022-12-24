@@ -112,18 +112,17 @@ jobs:
           APPSTORE_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
         run: |
           xcrun altool \
-          —validate-app \
+          —-validate-app \
           -f ${EXPORT_DIR}/${IPA_NAME} \
           -t ios \
-          —apiKey $APP_STORE_KEY \
-          —apiIssuer $APPSTORE_ID
+          —-apiKey $APP_STORE_KEY \
+          —-apiIssuer $APPSTORE_ID
     
           xcrun altool \
-          —upload-app \
-          -f ${EXPORT_DIR}/${IPA_NAME} \
+          —-upload-package ${EXPORT_DIR}/${IPA_NAME} \
           -t ios \
-          —apiKey $APP_STORE_KEY \
-          —apiIssuer $APPSTORE_ID
+          —-apiKey $APP_STORE_KEY \
+          —-apiIssuer $APPSTORE_ID
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
