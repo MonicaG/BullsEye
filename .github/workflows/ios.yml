@@ -88,7 +88,7 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles    
-      -name Install the App Store Connect API Auth Key
+      - name: Install the App Store Connect API Auth Key
         env: 
           APP_STORE_CONNECT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_BASE_64 }}
         run: |
