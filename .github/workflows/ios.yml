@@ -93,8 +93,8 @@ jobs:
           APP_STORE_CONNECT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_BASE_64 }}
         run: |
           # extract App Store secret to p8 file. Needs to be in one of ~/private_keys', '~/.private_keys', '~/.appstoreconnect/private_keys, /path/to/project/private_keys
-          mkdir -p ~/private_keys
-          echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output ~/private_keys/appStore.p8
+          mkdir -p private_keys
+          echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/appStore.p8
       - name: Build For Release
         run: |
           xcodebuild \
