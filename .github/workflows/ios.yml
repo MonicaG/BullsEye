@@ -97,7 +97,9 @@ jobs:
           -derivedDataPath $DATA_DIR \
           -archivePath ${DATA_DIR}/${ARCHIVE_NAME} \
           archive
-      - name: Export Archive
+      - name: Export Archive And Upload To AppStore
+        # The exportOptions.plist file contains (or should) the key value destination=upload
+        # This will upload the archive to AppStore
         run: |
           xcodebuild \
           -exportArchive \
