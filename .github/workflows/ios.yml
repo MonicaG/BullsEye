@@ -114,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: release
-          path: ${{ EXPORT_DIR }}
+          path: ${{ env.EXPORT_DIR }}
           retention-days: 5
          
      
