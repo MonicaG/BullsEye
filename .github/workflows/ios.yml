@@ -95,7 +95,7 @@ jobs:
           -configuration Release \
           -sdk iphoneos \
           -derivedDataPath $DATA_DIR \
-          -archivePath ${DATA_DIR/${ARCHIVE_NAME} \
+          -archivePath ${DATA_DIR}/${ARCHIVE_NAME} \
           archive
       - name: Export Archive
         run: |
