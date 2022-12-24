@@ -51,6 +51,7 @@ jobs:
        DATA_DIR: ${{ 'xcbuild' }}
        ARCHIVE_NAME:  ${{ 'BullsEye.xcarchive' }}
        EXPORT_DIR: ${{ 'export' }}
+       IPA_NAME: ${{ 'BullsEye.ipa' }}
 
     steps:
       - name: Checkout
@@ -97,12 +98,7 @@ jobs:
           -derivedDataPath $DATA_DIR \
           -archivePath ${DATA_DIR}/${ARCHIVE_NAME} \
           archive
-      - name: Export Archive And Upload To AppStore
-        # The exportOptions.plist file contains (or should) the key value destination=upload
-        # This will upload the archive to AppStore
-        env:
-          APPLEID_USERNAME: ${{ secrets.APPLEID_USERNAME }}
-          APPLEID_PASSWORD: ${{ secrets.APPLEID_PASSWORD }}
+      - name: Export Archive 
         run: |
           xcodebuild \
           -exportArchive \
@@ -110,6 +106,25 @@ jobs:
           -exportPath $EXPORT_DIR \
           -exportOptionsPlist exportOptions.plist \
           -verbose
+      - name: Upload to app store
+        env:
+          APP_STORE_KEY: ${{ secrets.APPSTORE_API_KEY_ID }}
+          APPSTORE_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+        run: |
+          xcrun altool \
+          —validate-app \
+          -f ${EXPORT_DIR}/${IPA_NAME} \
+          -t ios \
+          —apiKey $APP_STORE_KEY \
+          —apiIssuer $APPSTORE_ID
+    
+          xcrun altool \
+          —upload-app \
+          -f ${EXPORT_DIR}/${IPA_NAME} \
+          -t ios \
+          —apiKey $APP_STORE_KEY \
+          —apiIssuer $APPSTORE_ID
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
