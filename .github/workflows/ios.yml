@@ -6,15 +6,15 @@ on:
     branches: [ "main" ]
 
 env:
-  PLATFORM: ${{ 'iOS Simulator' }}
   PROJECT: ${{ 'BullsEye.xcodeproj' }}
   SCHEME: ${{ 'BullsEye' }}
-  ARCHIVE_PATH:  ${{ 'xcbuild/BullsEye.xcarchive' }}
 
 jobs:
-  build:
+  build-and-test:
     name: Build and Test default scheme using any available iPhone simulator
     runs-on: macos-latest
+    env:
+      PLATFORM: ${{ 'iOS Simulator' }}
 
     steps:
       - name: Checkout
@@ -43,6 +43,19 @@ jobs:
           -destination "platform=$PLATFORM,name=$device" \
           test-without-building
 
+  archive-and-deploy:
+    name: Archive and Deploy to Testflight
+    needs: [build-and-test]
+    runs-on: macos-latest
+    env:
+       ARCHIVE_PATH:  ${{ 'xcbuild/BullsEye.xcarchive' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Display XCode Path for debug
+        run: |
+          xcode-select -p  
       # from https://docs.github.com/en/enterprise-cloud@latest/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
       - name: Install the Apple certificate and provisioning profile
         env:
