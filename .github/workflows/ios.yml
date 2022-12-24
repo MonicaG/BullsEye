@@ -100,6 +100,9 @@ jobs:
       - name: Export Archive And Upload To AppStore
         # The exportOptions.plist file contains (or should) the key value destination=upload
         # This will upload the archive to AppStore
+        env:
+          APPLEID_USERNAME: ${{ secrets.APPLEID_USERNAME }}
+          APPLEID_PASSWORD: ${{ secrets.APPLEID_PASSWORD }}
         run: |
           xcodebuild \
           -exportArchive \
@@ -107,5 +110,11 @@ jobs:
           -exportPath $EXPORT_DIR \
           -exportOptionsPlist exportOptions.plist \
           -verbose
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+          with:
+            name: release
+            path: ${{ EXPORT_DIR }}
+            retention-days: 5
          
      
