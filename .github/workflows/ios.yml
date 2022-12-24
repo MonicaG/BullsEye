@@ -86,6 +86,9 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles    
+      -name: Setup archivePath
+        run: |
+          echo "ARCHIVE_PATH=${{ env.EXISTING_VAR }}/subdir/${{ env.OTHER_EXISTING_VAR }}" >> $GITHUB_ENV
       - name: Build For Release
         run: |
           xcodebuild \
@@ -94,7 +97,7 @@ jobs:
           -configuration Release \
           -sdk iphoneos \
           -derivedDataPath $DATA_FOLDER
-          -archivePath $DATA_FOLDER/$ARCHIVE_NAME \
+          -archivePath ${{ DATA_FOLDER }}/${{ ARCHIVE_NAME}} \
           archive
          
      
