@@ -112,9 +112,9 @@ jobs:
           -verbose
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
-          with:
-            name: release
-            path: ${{ EXPORT_DIR }}
-            retention-days: 5
+        with:
+          name: release
+          path: ${{ EXPORT_DIR }}
+          retention-days: 5
          
      
