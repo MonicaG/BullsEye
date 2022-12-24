@@ -88,6 +88,13 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles    
+      -name Install the App Store Connect API Auth Key
+        env: 
+          APP_STORE_CONNECT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_BASE_64 }}
+        run: |
+          # extract App Store secret to p8 file. Needs to be in one of ~/private_keys', '~/.private_keys', '~/.appstoreconnect/private_keys, /path/to/project/private_keys
+          mkdir -p ~/private_keys
+          echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output ~/private_keys/appStore.p8
       - name: Build For Release
         run: |
           xcodebuild \
@@ -111,18 +118,13 @@ jobs:
           APP_STORE_KEY: ${{ secrets.APPSTORE_API_KEY_ID }}
           APPSTORE_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
         run: |
-          xcrun altool \
-          —-validate-app \
-          -f ${EXPORT_DIR}/${IPA_NAME} \
-          -t ios \
-          —-apiKey $APP_STORE_KEY \
-          —-apiIssuer $APPSTORE_ID
+          xcrun altool --validate-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY --apiIssuer $APPSTORE_ID
     
-          xcrun altool \
-          —-upload-package ${EXPORT_DIR}/${IPA_NAME} \
-          -t ios \
-          —-apiKey $APP_STORE_KEY \
-          —-apiIssuer $APPSTORE_ID
+          # xcrun altool \
+          # —-upload-package ${EXPORT_DIR}/${IPA_NAME} \
+          # -t ios \
+          # —-apiKey $APP_STORE_KEY \
+          # —-apiIssuer $APPSTORE_ID
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
