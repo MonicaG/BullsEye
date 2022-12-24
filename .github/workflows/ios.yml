@@ -48,7 +48,8 @@ jobs:
     needs: [build-and-test]
     runs-on: macos-latest
     env:
-       ARCHIVE_PATH:  ${{ 'xcbuild/BullsEye.xcarchive' }}
+       DATA_FOLDER: ${{ xcbuild }}
+       ARCHIVE_NAME:  ${{ 'BullsEye.xcarchive' }}
 
     steps:
       - name: Checkout
@@ -92,7 +93,8 @@ jobs:
           -scheme $SCHEME \
           -configuration Release \
           -sdk iphoneos \
-          -archivePath $ARCHIVE_PATH 
+          -derivedDataPath $DATA_FOLDER
+          -archivePath $DATA_FOLDER/$ARCHIVE_NAME \
           archive
          
      
