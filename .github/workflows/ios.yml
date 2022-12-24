@@ -48,7 +48,7 @@ jobs:
     needs: [build-and-test]
     runs-on: macos-latest
     env:
-       DATA_FOLDER: ${{ xcbuild }}
+       DATA_FOLDER: ${{ 'xcbuild' }}
        ARCHIVE_NAME:  ${{ 'BullsEye.xcarchive' }}
 
     steps:
