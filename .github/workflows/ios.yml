@@ -97,6 +97,8 @@ jobs:
           echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/appStore.p8
           echo -n Debugging, pwd
           pwd
+          echo -n ls command
+          ls -la
           echo -n Debugging p8 file
           cat private_keys/appStore.p8
       - name: Build For Release
