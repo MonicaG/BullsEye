@@ -128,7 +128,7 @@ jobs:
         run: |
           xcrun altool --validate-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY --apiIssuer $APPSTORE_ID
 
-          xcrun altool --upload-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY--apiIssuer $APPSTORE_ID --verbose
+          xcrun altool --upload-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY --apiIssuer $APPSTORE_ID --verbose
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
