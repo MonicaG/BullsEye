@@ -100,7 +100,7 @@ jobs:
       - name: Increment Build No.
         run: |
           # Set Buiild Number. Not worrying about storing to repo.
-          agvtool new-version ${github.run_number}
+          agvtool new-version $github.run_number
       - name: Build For Release
         run: |
           xcodebuild \
