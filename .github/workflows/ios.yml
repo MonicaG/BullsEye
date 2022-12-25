@@ -97,10 +97,6 @@ jobs:
           FILE_NAME=AuthKey_${APP_STORE_KEY}.p8
           mkdir -p private_keys
           echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/${FILE_NAME}
-          echo -n Debugging, pwd
-          pwd
-          echo -n ls command
-          ls -la
       - name: Build For Release
         run: |
           xcodebuild \
@@ -125,12 +121,8 @@ jobs:
           APPSTORE_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
         run: |
           xcrun altool --validate-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY --apiIssuer $APPSTORE_ID
-    
-          # xcrun altool \
-          # —-upload-package ${EXPORT_DIR}/${IPA_NAME} \
-          # -t ios \
-          # —-apiKey $APP_STORE_KEY \
-          # —-apiIssuer $APPSTORE_ID
+
+          xcrun altool --upload-app -f ${EXPORT_DIR}/${IPA_NAME} -t ios --apiKey $APP_STORE_KEY--apiIssuer $APPSTORE_ID --verbose
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
