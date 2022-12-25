@@ -97,6 +97,10 @@ jobs:
           FILE_NAME=AuthKey_${APP_STORE_KEY}.p8
           mkdir -p private_keys
           echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/${FILE_NAME}
+      - name: Increment Build No.
+        run: |
+          # Set Buiild Number. Not worrying about storing to repo.
+          agvtool new-version ${github.run_number}
       - name: Build For Release
         run: |
           xcodebuild \
