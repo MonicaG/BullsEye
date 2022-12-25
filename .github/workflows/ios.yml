@@ -91,16 +91,16 @@ jobs:
       - name: Install the App Store Connect API Auth Key
         env: 
           APP_STORE_CONNECT_BASE64: ${{ secrets.APP_STORE_CONNECT_API_BASE_64 }}
+          APP_STORE_KEY: ${{ secrets.APPSTORE_API_KEY_ID }}
         run: |
           # extract App Store secret to p8 file. Needs to be in one of ~/private_keys', '~/.private_keys', '~/.appstoreconnect/private_keys, /path/to/project/private_keys
+          FILE_NAME=AuthKey_${APP_STORE_KEY}.p8
           mkdir -p private_keys
-          echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/appStore.p8
+          echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/${FILE_NAME}
           echo -n Debugging, pwd
           pwd
           echo -n ls command
           ls -la
-          echo -n Debugging p8 file
-          cat private_keys/appStore.p8
       - name: Build For Release
         run: |
           xcodebuild \
