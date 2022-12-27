@@ -98,11 +98,11 @@ jobs:
           mkdir -p private_keys
           echo -n "$APP_STORE_CONNECT_BASE64" | base64 --decode --output private_keys/${FILE_NAME}
       - name: Increment Build No.
+        env:
+          BUILD_NO: ${{ github.run_number }}
         run: |
           # Set Buiild Number. Not worrying about storing to repo.
-          agvtool next-version -all
-          git add .
-          git commit -m "bump build no"
+          agvtool new-version ${BUILD_NO}
       - name: Build For Release
         run: |
           xcodebuild \
