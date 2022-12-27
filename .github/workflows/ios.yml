@@ -102,7 +102,7 @@ jobs:
           BUILD_NO: ${{ github.run_number }}
         run: |
           # Set Buiild Number. Not worrying about storing to repo.
-          agvtool new-version ${BUILD_NO}
+          agvtool new-version -all ${BUILD_NO}
       - name: Build For Release
         run: |
           xcodebuild \
