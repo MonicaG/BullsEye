@@ -22,6 +22,14 @@ jobs:
       - name: Display XCode Path for debug
         run: |
           xcode-select -p  
+      - uses: actions/cache@v3
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: CocoaPod Install
+        run: pod install
       - name: Build For Testing
         run: |
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
@@ -59,6 +67,12 @@ jobs:
       - name: Display XCode Path for debug
         run: |
           xcode-select -p  
+      - uses: actions/cache@v3
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
       # from https://docs.github.com/en/enterprise-cloud@latest/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
       - name: Install the Apple certificate and provisioning profile
         env:
