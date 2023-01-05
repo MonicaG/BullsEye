@@ -22,7 +22,8 @@ jobs:
       - name: Display XCode Path for debug
         run: |
           xcode-select -p  
-      - uses: actions/cache@v3
+      - name: Cache Pods
+        uses: actions/cache@v3
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -67,7 +68,8 @@ jobs:
       - name: Display XCode Path for debug
         run: |
           xcode-select -p  
-      - uses: actions/cache@v3
+      -name: Cache Pods
+        uses: actions/cache@v3
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
