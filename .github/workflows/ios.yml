@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT: ${{ 'BullsEye.xcodeproj' }}
+  PROJECT: ${{ 'BullsEye.xcworkspace' }}
   SCHEME: ${{ 'BullsEye' }}
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           xcodebuild \
-          -project $PROJECT \
+          -workspace $PROJECT \
           -scheme $SCHEME \
           -sdk iphonesimulator \
           -destination "platform=$PLATFORM,name=$device" \
@@ -37,7 +37,7 @@ jobs:
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           xcodebuild \
-          -project $PROJECT \
+          -workspace $PROJECT \
           -scheme $SCHEME \
           -sdk iphonesimulator \
           -destination "platform=$PLATFORM,name=$device" \
@@ -106,7 +106,7 @@ jobs:
       - name: Build For Release
         run: |
           xcodebuild \
-          -project $PROJECT \
+          -workspace $PROJECT \
           -scheme $SCHEME \
           -configuration Release \
           -sdk iphoneos \
