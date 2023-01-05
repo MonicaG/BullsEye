@@ -31,6 +31,7 @@
 /// THE SOFTWARE.
 
 import XCTest
+import OHHTTPStubs
 @testable import BullsEye
 
 // swiftlint:disable implicitly_unwrapped_optional
@@ -52,18 +53,11 @@ class BullsEyeFakeTests: XCTestCase {
     // given
     // 1
     let stubbedData = "[1]".data(using: .utf8)
-    let urlString = "http://www.randomnumberapi.com/api/v1.0/random?min=0&max=100&count=1"
-    let url = URL(string: urlString)!
-    let stubbedResponse = HTTPURLResponse(
-      url: url,
-      statusCode: 200,
-      httpVersion: nil,
-      headerFields: nil)
-    let urlSessionStub = URLSessionStub(
-      data: stubbedData,
-      response: stubbedResponse,
-      error: nil)
-    sut.urlSession = urlSessionStub
+    stub(condition: isHost("www.randomnumberapi.com")) { _ in
+      let stubData = stubbedData
+      return HTTPStubsResponse(data: stubData!, statusCode:200, headers:nil)
+    }
+    
     let promise = expectation(description: "Completion handler invoked")
 
     // when

@@ -31,6 +31,7 @@
 /// THE SOFTWARE.
 
 import Foundation
+import Alamofire
 
 class BullsEyeGame {
   var round = 0
@@ -38,8 +39,6 @@ class BullsEyeGame {
   var targetValue = 50
   var scoreRound = 0
   var scoreTotal = 0
-
-  var urlSession: URLSessionProtocol = URLSession.shared
 
   init() {
     startNewGame()
@@ -73,20 +72,15 @@ class BullsEyeGame {
     guard let url = URL(string: "http://www.randomnumberapi.com/api/v1.0/random?min=0&max=100&count=1") else {
       return
     }
-    let task = urlSession.dataTask(with: url) { data, _, error in
-      do {
-        guard
-          let data = data,
-          error == nil,
-          let newTarget = try JSONDecoder().decode([Int].self, from: data).first
-        else {
-          return
-        }
+    
+    AF.request(url.absoluteString).responseDecodable(of: [Int].self) { response in
+      switch response.result {
+      case .success(let dTypes):
+        let newTarget = dTypes.first ?? 50
         completion(newTarget)
-      } catch {
-        print("Decoding of random numbers failed.")
+      case .failure(let error):
+        print("Decoding of random numbers failed. Error msg: \(error)")
       }
     }
-    task.resume()
   }
 }
