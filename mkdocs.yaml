@@ -2,6 +2,7 @@ site_name: 'bullseye-docs'
 
 nav:
   - Home: index.md
+  - About: file2.md
 
 plugins:
   - techdocs-core

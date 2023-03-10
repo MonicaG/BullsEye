@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
+    # ignore backstage docs/yaml stuff
+    paths-ignore:
+      - 'docs/**'
+      - '**.yaml'
 
 env:
   PROJECT: ${{ 'BullsEye.xcworkspace' }}
